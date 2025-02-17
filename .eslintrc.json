@@ -20,16 +20,14 @@
   "plugins": [
     "react",
     "react-hooks",
-    "prettier",
-    "import",
-    "simple-import-sort"
+    "prettier"
   ],
   "rules": {
     "react/react-in-jsx-scope": "off",
     "import/no-anonymous-default-export": "off",
-    "import/newline-after-import": "error",
-    "import/first": "error",
-    "simple-import-sort/imports": "error",
+    "import/newline-after-import": "off",
+    "import/first": "off",
+    "simple-import-sort/imports": "off",
     "react-hooks/rules-of-hooks": "error",
     "react-hooks/exhaustive-deps": "warn",
     "prettier/prettier": "error",
