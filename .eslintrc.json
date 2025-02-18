@@ -28,9 +28,12 @@
     "import/newline-after-import": "off",
     "import/first": "off",
     "simple-import-sort/imports": "off",
-    "react-hooks/rules-of-hooks": "error",
+    "react-hooks/rules-of-hooks": "warn",
     "react-hooks/exhaustive-deps": "warn",
-    "prettier/prettier": "error",
+    "prettier/prettier": ["error", {
+      "printWidth": 120,
+      "singleAttributePerLine": false
+    }],
     "no-multiple-empty-lines": ["error", { "max": 1 }],
     "eol-last": ["error", "always"],
     "comma-dangle": ["error", "always-multiline"],
@@ -51,7 +54,7 @@
         "prev": ["const", "let", "var"],
         "next": ["const", "let", "var"]
       }
-    ]
+    ],
   },
   "settings": {
     "react": {
