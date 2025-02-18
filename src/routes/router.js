@@ -5,6 +5,7 @@ import NotFound from 'pages/NotFound';
 import Signup from '../pages/Signup';
 import SignupConfirm from '../pages/SignupConfirm';
 import Layout from './Layout';
+import PrivateRoute from './PrivateRoute';
 
 const router = createBrowserRouter([
   {
@@ -23,7 +24,7 @@ const router = createBrowserRouter([
   {
     path: '/',
     element: <Layout />,
-    children: [{ path: '/todo', element: <Test /> }],
+    children: [{ path: '/todo', element: <PrivateRoute element={<Test />} /> }],
   },
   {
     path: '*',
