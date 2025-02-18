@@ -17,44 +17,12 @@
       "jsx": true
     }
   },
-  "plugins": [
-    "react",
-    "react-hooks",
-    "prettier"
-  ],
+  "plugins": ["react", "react-hooks", "prettier"],
   "rules": {
     "react/react-in-jsx-scope": "off",
-    "import/no-anonymous-default-export": "off",
-    "import/newline-after-import": "off",
-    "import/first": "off",
-    "simple-import-sort/imports": "off",
-    "react-hooks/rules-of-hooks": "warn",
-    "react-hooks/exhaustive-deps": "warn",
-    "prettier/prettier": ["warn", {
-      "printWidth": 120,
-      "singleAttributePerLine": false
-    }],
-    "no-multiple-empty-lines": ["warn", { "max": 1 }],
-    "eol-last": ["warn", "always"],
-    "comma-dangle": ["warn", "always-multiline"],
-    "object-curly-spacing": ["warn", "always"],
-    "space-in-parens": ["warn", "never"],
-    "computed-property-spacing": ["warn", "never"],
-    "comma-spacing": ["warn", { "before": false, "after": true }],
-    "quotes": ["warn", "single"],
-    "no-tabs": ["warn", { "allowIndentationTabs": true }],
-    "semi": ["warn", "always"],
-    "object-shorthand": "warn",
-    "padding-line-between-statements": [
-      "warn",
-      { "blankLine": "always", "prev": "*", "next": "return" },
-      { "blankLine": "always", "prev": ["const", "let", "var"], "next": "*" },
-      {
-        "blankLine": "any",
-        "prev": ["const", "let", "var"],
-        "next": ["const", "let", "var"]
-      }
-    ],
+    "prettier/prettier": "warn",
+    "no-unused-vars": "warn",
+    "no-console": "warn"
   },
   "settings": {
     "react": {
