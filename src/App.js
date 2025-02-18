@@ -1,7 +1,13 @@
-import Router from './router';
+import Router from './routes/router';
+import { Suspense } from 'react';
+import Loading from './components/Loading';
 
 function App() {
-  return <Router />;
+  return (
+    <Suspense fallback={<Loading />}>
+      <Router />
+    </Suspense>
+  );
 }
 
 export default App;
