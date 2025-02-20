@@ -10,11 +10,13 @@ import { boardAtom } from 'recoil/boardAtom';
 import { modalAtom } from 'recoil/modalAtom';
 import styles from 'pages/Board.module.css';
 import { Button } from '@mui/material';
+import { alertAtom } from '../recoil/alertAtom';
 
 const Board = () => {
   const userState = useRecoilValue(userAtom);
   const [boardState, setBoardState] = useRecoilState(boardAtom);
   const setModalState = useSetRecoilState(modalAtom);
+  const setAlertState = useSetRecoilState(alertAtom);
 
   const handleModalOpen = () => {
     setModalState((prev) => ({
@@ -37,7 +39,12 @@ const Board = () => {
       }));
     } catch (error) {
       console.error(error);
-      alert(error.message);
+      // prettier-ignore
+      setAlertState({
+        open: true,
+        message: error.message,
+        severity: 'error'
+      });
     }
   };
 
@@ -52,7 +59,12 @@ const Board = () => {
         }));
       } catch (error) {
         console.error(error);
-        alert(error.message);
+        // prettier-ignore
+        setAlertState({
+          open: true,
+          message: error.message,
+          severity: 'error'
+        });
       }
     };
 

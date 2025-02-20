@@ -8,6 +8,7 @@ import { useSetRecoilState } from 'recoil';
 import { userAtom } from 'recoil/userAtom';
 import { Button, TextField } from '@mui/material';
 import styles from 'pages/SignIn.module.css';
+import { alertAtom } from '../recoil/alertAtom';
 
 const SignIn = () => {
   const navigate = useNavigate();
@@ -27,9 +28,10 @@ const SignIn = () => {
       maxLength: 12,
     },
   };
+  const setUserState = useSetRecoilState(userAtom);
+  const setAlertState = useSetRecoilState(alertAtom);
   const { handleChange } = onTextChange(setJsonData);
   let { errors, validate } = useValidation(jsonData, validationRules);
-  const setUserState = useSetRecoilState(userAtom);
 
   // 로그인
   const handleSignIn = async () => {
@@ -39,7 +41,12 @@ const SignIn = () => {
       navigate('/board');
     } catch (error) {
       console.error(error);
-      alert(error.message);
+      // prettier-ignore
+      setAlertState({
+        open: true,
+        message: error.message,
+        severity: 'error'
+      });
     }
   };
 

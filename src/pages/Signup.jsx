@@ -5,6 +5,8 @@ import onTextChange from 'utils/onTextChange';
 import useValidation from 'hooks/useValidation';
 import styles from 'pages/Signup.module.css';
 import { Button, TextField } from '@mui/material';
+import { useSetRecoilState } from 'recoil';
+import { alertAtom } from '../recoil/alertAtom';
 
 const Main = () => {
   const navigate = useNavigate();
@@ -31,6 +33,7 @@ const Main = () => {
       maxLength: 15,
     },
   };
+  const setAlertState = useSetRecoilState(alertAtom);
   const { handleChange } = onTextChange(setJsonData);
   let { errors, validate } = useValidation(jsonData, validationRules);
 
@@ -41,7 +44,12 @@ const Main = () => {
       navigate('/signup-confirm');
     } catch (error) {
       console.error(error);
-      alert(error.message);
+      // prettier-ignore
+      setAlertState({
+        open: true,
+        message: error.message,
+        severity: 'error'
+      });
     }
   };
 

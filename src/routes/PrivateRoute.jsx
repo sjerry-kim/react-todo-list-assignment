@@ -1,10 +1,13 @@
 import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { checkSession } from 'api/auth';
+import { useSetRecoilState } from 'recoil';
+import { alertAtom } from '../recoil/alertAtom';
 
 const PrivateRoute = ({ element }) => {
   const navigate = useNavigate();
   const [isAuthenticated, setIsAuthenticated] = useState(false);
+  const setAlertState = useSetRecoilState(alertAtom);
 
   useEffect(() => {
     const checkAuth = async () => {
@@ -18,7 +21,12 @@ const PrivateRoute = ({ element }) => {
         }
       } catch (error) {
         console.error(error);
-        alert(error.message);
+        // prettier-ignore
+        setAlertState({
+          open: true,
+          message: error.message,
+          severity: 'error'
+        });
       }
     };
 

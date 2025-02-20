@@ -1,13 +1,15 @@
 import { useNavigate } from 'react-router-dom';
 import { signOut } from 'api/auth';
-import { useRecoilState } from 'recoil';
+import { useRecoilState, useSetRecoilState } from 'recoil';
 import { userAtom } from 'recoil/userAtom';
 import styles from 'components/Navbar.module.css';
 import { Button } from '@mui/material';
+import { alertAtom } from '../recoil/alertAtom';
 
 const Navbar = () => {
   const navigate = useNavigate();
   const [userState, setUserState] = useRecoilState(userAtom);
+  const setAlertState = useSetRecoilState(alertAtom);
 
   const handleLogout = async () => {
     try {
@@ -17,7 +19,12 @@ const Navbar = () => {
       navigate('/');
     } catch (error) {
       console.error(error);
-      alert(error.message);
+      // prettier-ignore
+      setAlertState({
+        open: true,
+        message: error.message,
+        severity: 'error'
+      });
     }
   };
 

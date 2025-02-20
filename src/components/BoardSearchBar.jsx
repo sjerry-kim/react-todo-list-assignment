@@ -1,5 +1,5 @@
 import { getBoard } from 'api/board';
-import { useRecoilState, useRecoilValue } from 'recoil';
+import { useRecoilState, useRecoilValue, useSetRecoilState } from 'recoil';
 import { userAtom } from 'recoil/userAtom';
 import { boardAtom } from 'recoil/boardAtom';
 import { alertAtom } from 'recoil/alertAtom';
@@ -12,7 +12,7 @@ import onTextChange from '../utils/onTextChange';
 const BoardSearchBar = () => {
   const userState = useRecoilValue(userAtom);
   const [boardState, setBoardState] = useRecoilState(boardAtom);
-  const [alertState, setAlertState] = useRecoilState(alertAtom);
+  const setAlertState = useSetRecoilState(alertAtom);
   const { handleChange } = onTextChange(setBoardState);
 
   const handleSubmit = async (event) => {
@@ -27,7 +27,12 @@ const BoardSearchBar = () => {
       }));
     } catch (error) {
       console.error(error);
-      alert(error.message);
+      // prettier-ignore
+      setAlertState({
+        open: true,
+        message: error.message,
+        severity: 'error'
+      });
     }
   };
 

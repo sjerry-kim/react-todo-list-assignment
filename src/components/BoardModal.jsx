@@ -1,6 +1,6 @@
 import { getBoard, patchBoard, postBoard } from 'api/board';
 import onTextChange from 'utils/onTextChange';
-import { useRecoilState, useRecoilValue } from 'recoil';
+import { useRecoilState, useRecoilValue, useSetRecoilState } from 'recoil';
 import { modalAtom } from 'recoil/modalAtom';
 import { userAtom } from 'recoil/userAtom';
 import { boardAtom } from 'recoil/boardAtom';
@@ -10,6 +10,7 @@ import Button from '@mui/material/Button';
 import { TextField } from '@mui/material';
 import useValidation from '../hooks/useValidation';
 import styles from '../pages/SignIn.module.css';
+import { alertAtom } from '../recoil/alertAtom';
 
 const style = {
   position: 'absolute',
@@ -27,6 +28,8 @@ const BoardModal = () => {
   const userState = useRecoilValue(userAtom);
   const [boardState, setBoardState] = useRecoilState(boardAtom);
   const [modalState, setModalState] = useRecoilState(modalAtom);
+  const setAlertState = useSetRecoilState(alertAtom);
+
   const validationRules = {
     text: {
       required: true,
@@ -60,7 +63,12 @@ const BoardModal = () => {
       await handleModalClose();
     } catch (error) {
       console.error(error);
-      alert(error.message);
+      // prettier-ignore
+      setAlertState({
+        open: true,
+        message: error.message,
+        severity: 'error'
+      });
     }
   };
 
@@ -79,7 +87,12 @@ const BoardModal = () => {
       await handleModalClose();
     } catch (error) {
       console.error(error);
-      alert(error.message);
+      // prettier-ignore
+      setAlertState({
+        open: true,
+        message: error.message,
+        severity: 'error'
+      });
     }
   };
 
