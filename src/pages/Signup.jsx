@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { signUp } from 'api/auth';
-import useChange from 'hooks/useChange';
+import onTextChange from 'utils/onTextChange';
 import useValidation from 'hooks/useValidation';
 import styles from 'pages/Signup.module.css';
 import { Button, TextField } from '@mui/material';
@@ -31,8 +31,8 @@ const Main = () => {
       maxLength: 15,
     },
   };
-  const { handleChange } = useChange(setJsonData);
-  const { errors, validate } = useValidation(jsonData, validationRules);
+  const { handleChange } = onTextChange(setJsonData);
+  let { errors, validate } = useValidation(jsonData, validationRules);
 
   // 회원가
   const handleSigUup = async () => {
