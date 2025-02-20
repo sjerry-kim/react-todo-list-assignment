@@ -1,17 +1,17 @@
 import { createBrowserRouter, RouterProvider } from 'react-router-dom';
-import Login from 'pages/Login';
-import Test from 'pages/Test';
+import PrivateRoute from 'routes/PrivateRoute';
 import NotFound from 'pages/NotFound';
-import Signup from '../pages/Signup';
-import SignupConfirm from '../pages/SignupConfirm';
-import Layout from './Layout';
-import PrivateRoute from './PrivateRoute';
+import Layout from 'routes/Layout';
+import Signup from 'pages/Signup';
+import SignupConfirm from 'pages/SignupConfirm';
+import SignIn from 'pages/SignIn';
+import Board from 'pages/Board';
 
 const router = createBrowserRouter([
   {
     path: '/',
     index: true,
-    element: <Login />,
+    element: <SignIn />,
   },
   {
     path: '/signup',
@@ -24,7 +24,7 @@ const router = createBrowserRouter([
   {
     path: '/',
     element: <Layout />,
-    children: [{ path: '/todo', element: <PrivateRoute element={<Test />} /> }],
+    children: [{ path: '/board', element: <PrivateRoute element={<Board />} /> }],
   },
   {
     path: '*',

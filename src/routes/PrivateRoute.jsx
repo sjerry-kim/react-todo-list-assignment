@@ -1,26 +1,31 @@
 import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { checkAuth } from 'api/auth';
+import { checkSession } from 'api/auth';
 
 const PrivateRoute = ({ element }) => {
   const navigate = useNavigate();
-  const [isAuthenticated, setIsAuthenticated] = useState(null);
+  const [isAuthenticated, setIsAuthenticated] = useState(false);
 
   useEffect(() => {
-    const redirectByAuth = async () => {
-      const res = await checkAuth();
+    const checkAuth = async () => {
+      try {
+        const result = await checkSession();
 
-      if (!res.session) {
-        navigate('/', { replace: true });
-      } else {
-        setIsAuthenticated(true);
+        if (!result.session) {
+          navigate('/', { replace: true });
+        } else {
+          setIsAuthenticated(true);
+        }
+      } catch (error) {
+        console.error(error);
+        alert(error.message);
       }
     };
 
-    redirectByAuth();
+    checkAuth();
   }, [navigate]);
 
-  if (isAuthenticated === null) return null;
+  if (!isAuthenticated) return null;
 
   return element;
 };
