@@ -1,65 +1,80 @@
 import { supabase } from 'utils/supabase';
 
-export const signUp = async (email, password, displayName) => {
+// 회원가입
+export const signUp = async (jsonData) => {
   try {
     const { data, error } = await supabase.auth.signUp({
-      email,
-      password,
+      email: jsonData.email,
+      password: jsonData.password,
       options: {
         data: {
-          display_name: displayName,
+          display_name: jsonData.displayName,
         },
+        emailRedirectTo: 'http://localhost:3000/signup-confirm',
       },
     });
 
-    if (error) {
-      return { success: false, message: error.message };
-    }
+    if (error) throw new Error(error.message || '통신 오류가 발생하였습니다.');
 
-    return { success: true, data };
-  } catch (err) {
-    return { success: false, message: '회원가입 중 오류가 발생했습니다.' };
+    return { status: 200, data };
+  } catch (error) {
+    if (error.status === 422) {
+      throw new Error('이미 존재하는 이메일입니다.');
+    } else {
+      throw new Error(`회원가입 중 오류가 발생하였습니다.`);
+    }
   }
 };
 
-export const signIn = async (email, password) => {
+// 로그인
+export const signIn = async (jsonData) => {
   try {
-    const { data, error } = await supabase.auth.signInWithPassword({ email, password });
+    const { data, error } = await supabase.auth.signInWithPassword({
+      email: jsonData.email,
+      password: jsonData.password,
+    });
 
     if (error) {
-      return { success: false, message: error.message, code: error.code };
+      const errorMessage =
+        error.status === 400 && error.code === 'email_not_confirmed'
+          ? '이메일 인증 후 로그인 할 수 있습니다.'
+          : error.status === 400 && error.code === 'invalid_credentials'
+            ? '로그인 정보가 일치하지 않습니다.'
+            : `통신오류가 발생하였습니다.`;
+
+      throw new Error(errorMessage);
     }
 
-    return { success: true, user: data.user };
-  } catch (err) {
-    return { success: false, message: '로그인 중 오류가 발생했습니다.' };
+    return { status: 200, user: data.user };
+  } catch (error) {
+    throw new Error(error.message || '로그인 중 오류가 발생하였습니다.');
   }
 };
 
+// 로그아웃
 export const signOut = async () => {
   try {
     const { error } = await supabase.auth.signOut();
 
-    if (error) {
-      return { success: false, message: error.message };
-    }
+    if (error) throw new Error(error.message || '통신 오류가 발생하였습니다.');
 
-    return { success: true, user: null };
-  } catch (err) {
-    return { success: false, message: '알 수 없는 오류가 발생했습니다.' };
+    return { status: 200, user: null };
+  } catch (error) {
+    throw new Error(error.message || '로그아웃 중 오류가 발생하였습니다.');
   }
 };
 
-export const checkAuth = async () => {
+// 권한 확인
+export const checkSession = async () => {
   try {
     const { data, error } = await supabase.auth.getSession();
 
-    if (error) {
-      return { success: false, message: error.message };
-    }
+    if (error) throw new Error(error.message || '통신 오류가 발생하였습니다.');
 
-    return { success: true, session: data.session };
-  } catch (err) {
-    return { success: false, message: '알 수 없는 오류가 발생했습니다.' };
+    const message = data.session ? '' : '세션이 만료되었습니다.';
+
+    return { status: 200, session: data.session, message: message };
+  } catch (error) {
+    throw new Error(error.message || '알 수 없는 오류가 발생하였습니다.');
   }
 };
