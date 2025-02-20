@@ -1,21 +1,20 @@
-import { Button, TextField } from '@mui/material';
-import styles from './Login.module.css';
-import { useNavigate } from 'react-router-dom';
 import { useEffect, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
+import { signIn, signOut } from 'api/auth';
 import useChange from 'hooks/useChange';
-import useValidation from '../hooks/useValidation';
-import { signIn, signOut } from '../api/auth';
+import useValidation from 'hooks/useValidation';
+import LoginTypingText from 'components/LoginTypingText';
 import { useSetRecoilState } from 'recoil';
-import { userAtom } from '../recoil/userAtom';
-import LoginTypingText from '../components/LoginTypingText';
+import { userAtom } from 'recoil/userAtom';
+import { Button, TextField } from '@mui/material';
+import styles from 'pages/SignIn.module.css';
 
-const Login = () => {
+const SignIn = () => {
   const navigate = useNavigate();
   const [jsonData, setJsonData] = useState({
     email: '',
     password: '',
   });
-  const { handleChange } = useChange(setJsonData);
   const validationRules = {
     email: {
       required: true,
@@ -28,26 +27,19 @@ const Login = () => {
       maxLength: 12,
     },
   };
+  const { handleChange } = useChange(setJsonData);
   const { errors, validate } = useValidation(jsonData, validationRules);
-  const setUser = useSetRecoilState(userAtom);
+  const setUserState = useSetRecoilState(userAtom);
 
-  const handleLogin = async () => {
+  // 로그인
+  const handleSignIn = async () => {
     try {
-      const res = await signIn(jsonData.email, jsonData.password);
-
-      if (res.user) {
-        await setUser(res.user);
-        await navigate('/todo');
-      } else {
-        const message =
-          res.code === 'email_not_confirmed' ? '이메일 인증 후 로그인할 수 있습니다.' : '로그인 정보가 일치하지 않습니다.';
-
-        alert(message);
-
-        throw res;
-      }
+      const result = await signIn(jsonData);
+      setUserState(result.user);
+      navigate('/board');
     } catch (error) {
-      console.error(error.message);
+      console.error(error);
+      alert(error.message);
     }
   };
 
@@ -55,13 +47,13 @@ const Login = () => {
     const isValid = validate();
 
     if (isValid) {
-      handleLogin();
+      handleSignIn();
     }
   };
 
   useEffect(() => {
     signOut();
-    setUser(null);
+    setUserState(null);
   }, []);
 
   return (
@@ -110,4 +102,4 @@ const Login = () => {
   );
 };
 
-export default Login;
+export default SignIn;
