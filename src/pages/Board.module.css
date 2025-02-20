@@ -1,0 +1,18 @@
+.main {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    width: 100vw;
+    height: 100vh;
+}
+
+.section {
+    /*margin: 30px auto;*/
+    /*width: 700px;*/
+    /*height: 500px;*/
+}
+
+.add_btn {
+
+}
