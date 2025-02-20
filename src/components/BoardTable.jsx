@@ -13,8 +13,9 @@ import TableBody from '@mui/material/TableBody';
 import TableCell from '@mui/material/TableCell';
 import TableContainer from '@mui/material/TableContainer';
 import TableHead from '@mui/material/TableHead';
+import { CircularProgress } from '@mui/material';
 
-const BoardTable = ({ rows }) => {
+const BoardTable = ({ rows, isLoading }) => {
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(5);
   const [boardState, setBoardState] = useRecoilState(boardAtom);
@@ -81,7 +82,7 @@ const BoardTable = ({ rows }) => {
               </TableRow>
             </TableHead>
             <TableBody>
-              {rows.length > 0 ? (
+              {!isLoading && rows.length > 0 ? (
                 rows.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map((item, index) => (
                   <TableRow key={index} selected={boardState.selected.includes(item.idx)}>
                     <TableCell padding="checkbox">
@@ -99,7 +100,7 @@ const BoardTable = ({ rows }) => {
               ) : (
                 <TableRow>
                   <TableCell colSpan={3} align="center">
-                    등록된 내용이 없습니다.
+                    {isLoading ? <CircularProgress color="inherit" /> : '등록된 내용이 없습니다.'}
                   </TableCell>
                 </TableRow>
               )}

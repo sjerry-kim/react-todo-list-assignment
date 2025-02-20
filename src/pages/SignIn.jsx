@@ -9,6 +9,7 @@ import { userAtom } from 'recoil/userAtom';
 import { Button, TextField } from '@mui/material';
 import styles from 'pages/SignIn.module.css';
 import { alertAtom } from '../recoil/alertAtom';
+import Loading from '../components/Loading';
 
 const SignIn = () => {
   const navigate = useNavigate();
@@ -16,6 +17,7 @@ const SignIn = () => {
     email: '',
     password: '',
   });
+  const [isLoading, setIsLoading] = useState(false);
   const validationRules = {
     email: {
       required: true,
@@ -36,6 +38,7 @@ const SignIn = () => {
   // 로그인
   const handleSignIn = async () => {
     try {
+      setIsLoading(true);
       const result = await signIn(jsonData);
       setUserState(result.user);
       navigate('/board');
@@ -46,6 +49,8 @@ const SignIn = () => {
         message: error.message,
         severity: 'error',
       });
+    } finally {
+      setIsLoading(false);
     }
   };
 
@@ -96,7 +101,7 @@ const SignIn = () => {
           </li>
         </ul>
         <div className={styles.login_btn_box}>
-          <Button className={styles.login_btn} variant="contained" size="large" onClick={handleSubmit}>
+          <Button className={styles.login_btn} variant="contained" size="large" disabled={isLoading} onClick={handleSubmit}>
             로그인
           </Button>
         </div>
@@ -104,6 +109,7 @@ const SignIn = () => {
       <div className={styles.signup_btn_box}>
         <Button onClick={() => navigate('signup')}>회원가입</Button>
       </div>
+      {/*{isLoading && <Loading />}*/}
     </main>
   );
 };

@@ -1,4 +1,4 @@
-import { Fragment, useEffect } from 'react';
+import { Fragment, useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { deleteBoard, getBoard } from 'api/board';
 import BoardTable from 'components/BoardTable';
@@ -15,6 +15,7 @@ import { alertAtom } from '../recoil/alertAtom';
 
 const Board = () => {
   const navigate = useNavigate();
+  const [isLoading, setIsLoading] = useState(false);
   const [userState, setUserState] = useRecoilState(userAtom);
   const [boardState, setBoardState] = useRecoilState(boardAtom);
   const setModalState = useSetRecoilState(modalAtom);
@@ -57,8 +58,8 @@ const Board = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
+        setIsLoading(true);
         const result = await getBoard(userState, boardState.select.ascending, boardState.search);
-
         setBoardState((prev) => ({
           ...prev,
           todoList: result.data,
@@ -75,6 +76,8 @@ const Board = () => {
           navigate('/404');
           setUserState(null);
         }
+      } finally {
+        setIsLoading(false);
       }
     };
 
@@ -93,7 +96,7 @@ const Board = () => {
           </Button>
           <BoardSearchBar />
           <BoardSelect />
-          <BoardTable rows={boardState.todoList} />
+          <BoardTable rows={boardState.todoList} isLoading={isLoading} />
         </section>
       </main>
       <BoardModal />

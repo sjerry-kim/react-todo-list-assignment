@@ -7,6 +7,7 @@ import styles from 'pages/Signup.module.css';
 import { Button, TextField } from '@mui/material';
 import { useSetRecoilState } from 'recoil';
 import { alertAtom } from '../recoil/alertAtom';
+import Loading from '../components/Loading';
 
 const Main = () => {
   const navigate = useNavigate();
@@ -33,13 +34,15 @@ const Main = () => {
       maxLength: 15,
     },
   };
+  const [isLoading, setIsLoading] = useState(false);
   const setAlertState = useSetRecoilState(alertAtom);
   const { handleChange } = onTextChange(setJsonData);
   let { errors, validate } = useValidation(jsonData, validationRules);
 
-  // 회원가
+  // 회원가입
   const handleSigUup = async () => {
     try {
+      setIsLoading(true);
       await signUp(jsonData);
       navigate('/signup-confirm');
     } catch (error) {
@@ -49,6 +52,8 @@ const Main = () => {
         message: error.message,
         severity: 'error'
       });
+    } finally {
+      setIsLoading(false);
     }
   };
 
@@ -108,7 +113,7 @@ const Main = () => {
           </li>
         </ul>
         <div className={styles.signup_btn_box}>
-          <Button className={styles.signup_btn} variant="contained" size="large" onClick={handleSubmit}>
+          <Button className={styles.signup_btn} variant="contained" size="large" disabled={isLoading} onClick={handleSubmit}>
             회원가입
           </Button>
         </div>
@@ -116,6 +121,7 @@ const Main = () => {
       <div className={styles.login_btn_box}>
         <Button onClick={() => navigate('/')}>로그인 페이지로</Button>
       </div>
+      {/*{isLoading && <Loading />}*/}
     </main>
   );
 };
