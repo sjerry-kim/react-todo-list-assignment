@@ -1,6 +1,6 @@
 import { useState } from 'react';
 
-export default function useValidation(jsonData, validationRules) {
+const useValidation = (jsonData, validationRules) => {
   const [errors, setErrors] = useState({});
 
   const validate = () => {
@@ -37,4 +37,6 @@ export default function useValidation(jsonData, validationRules) {
   };
 
   return { errors, validate };
-}
+};
+
+export default useValidation;
