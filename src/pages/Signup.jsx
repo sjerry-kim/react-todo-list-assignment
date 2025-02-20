@@ -1,10 +1,10 @@
-import { Button, TextField } from '@mui/material';
-import styles from './Signup.module.css';
 import { useState } from 'react';
-import useChange from 'hooks/useChange';
-import useValidation from '../hooks/useValidation';
-import { signUp } from 'api/auth';
 import { useNavigate } from 'react-router-dom';
+import { signUp } from 'api/auth';
+import useChange from 'hooks/useChange';
+import useValidation from 'hooks/useValidation';
+import styles from 'pages/Signup.module.css';
+import { Button, TextField } from '@mui/material';
 
 const Main = () => {
   const navigate = useNavigate();
@@ -13,7 +13,6 @@ const Main = () => {
     password: '',
     displayName: '',
   });
-  const { handleChange } = useChange(setJsonData);
   const validationRules = {
     email: {
       required: true,
@@ -32,14 +31,17 @@ const Main = () => {
       maxLength: 15,
     },
   };
+  const { handleChange } = useChange(setJsonData);
   const { errors, validate } = useValidation(jsonData, validationRules);
 
-  const handleSignup = async () => {
+  // 회원가
+  const handleSigUup = async () => {
     try {
-      await signUp(jsonData.email, jsonData.password, jsonData.displayName);
+      await signUp(jsonData);
       navigate('/signup-confirm');
     } catch (error) {
       console.error(error);
+      alert(error.message);
     }
   };
 
@@ -47,7 +49,7 @@ const Main = () => {
     const isValid = validate();
 
     if (isValid) {
-      handleSignup();
+      handleSigUup();
     }
   };
 
