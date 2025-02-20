@@ -43,7 +43,6 @@ const Main = () => {
       await signUp(jsonData);
       navigate('/signup-confirm');
     } catch (error) {
-      console.error(error);
       // prettier-ignore
       setAlertState({
         open: true,

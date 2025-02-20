@@ -1,6 +1,7 @@
+import { useNavigate } from 'react-router-dom';
 import { getBoard, patchBoard, postBoard } from 'api/board';
 import onTextChange from 'utils/onTextChange';
-import { useRecoilState, useRecoilValue, useSetRecoilState } from 'recoil';
+import { useRecoilState, useSetRecoilState } from 'recoil';
 import { modalAtom } from 'recoil/modalAtom';
 import { userAtom } from 'recoil/userAtom';
 import { boardAtom } from 'recoil/boardAtom';
@@ -25,11 +26,11 @@ const style = {
 };
 
 const BoardModal = () => {
-  const userState = useRecoilValue(userAtom);
+  const navigate = useNavigate();
+  const [userState, setUserState] = useRecoilState(userAtom);
   const [boardState, setBoardState] = useRecoilState(boardAtom);
   const [modalState, setModalState] = useRecoilState(modalAtom);
   const setAlertState = useSetRecoilState(alertAtom);
-
   const validationRules = {
     text: {
       required: true,
@@ -62,13 +63,17 @@ const BoardModal = () => {
 
       await handleModalClose();
     } catch (error) {
-      console.error(error);
       // prettier-ignore
       setAlertState({
         open: true,
         message: error.message,
         severity: 'error'
       });
+
+      if (error.status === 401) {
+        navigate('/404');
+        setUserState(null);
+      }
     }
   };
 
@@ -86,13 +91,17 @@ const BoardModal = () => {
 
       await handleModalClose();
     } catch (error) {
-      console.error(error);
       // prettier-ignore
       setAlertState({
         open: true,
         message: error.message,
         severity: 'error'
       });
+
+      if (error.status === 401) {
+        navigate('/404');
+        setUserState(null);
+      }
     }
   };
 

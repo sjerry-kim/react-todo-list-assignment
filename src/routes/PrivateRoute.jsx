@@ -20,7 +20,6 @@ const PrivateRoute = ({ element }) => {
           setIsAuthenticated(true);
         }
       } catch (error) {
-        console.error(error);
         // prettier-ignore
         setAlertState({
           open: true,

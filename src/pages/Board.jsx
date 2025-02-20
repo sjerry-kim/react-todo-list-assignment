@@ -1,10 +1,11 @@
 import { Fragment, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { deleteBoard, getBoard } from 'api/board';
 import BoardTable from 'components/BoardTable';
 import BoardSelect from 'components/BoardSelect';
 import BoardSearchBar from 'components/BoardSearchBar';
 import BoardModal from 'components/BoardModal';
-import { useRecoilState, useRecoilValue, useSetRecoilState } from 'recoil';
+import { useRecoilState, useSetRecoilState } from 'recoil';
 import { userAtom } from 'recoil/userAtom';
 import { boardAtom } from 'recoil/boardAtom';
 import { modalAtom } from 'recoil/modalAtom';
@@ -13,7 +14,8 @@ import { Button } from '@mui/material';
 import { alertAtom } from '../recoil/alertAtom';
 
 const Board = () => {
-  const userState = useRecoilValue(userAtom);
+  const navigate = useNavigate();
+  const [userState, setUserState] = useRecoilState(userAtom);
   const [boardState, setBoardState] = useRecoilState(boardAtom);
   const setModalState = useSetRecoilState(modalAtom);
   const setAlertState = useSetRecoilState(alertAtom);
@@ -38,13 +40,17 @@ const Board = () => {
         selected: [],
       }));
     } catch (error) {
-      console.error(error);
       // prettier-ignore
       setAlertState({
         open: true,
         message: error.message,
         severity: 'error'
       });
+
+      if (error.status === 401) {
+        navigate('/404');
+        setUserState(null);
+      }
     }
   };
 
@@ -58,13 +64,17 @@ const Board = () => {
           todoList: result.data,
         }));
       } catch (error) {
-        console.error(error);
         // prettier-ignore
         setAlertState({
           open: true,
           message: error.message,
           severity: 'error'
         });
+
+        if (error.status === 401) {
+          navigate('/404');
+          setUserState(null);
+        }
       }
     };
 

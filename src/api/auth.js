@@ -21,7 +21,7 @@ export const signUp = async (jsonData) => {
     if (error.status === 422) {
       throw new Error('이미 존재하는 이메일입니다.');
     } else {
-      throw new Error(`회원가입 중 오류가 발생하였습니다.`);
+      throw error;
     }
   }
 };
@@ -41,13 +41,13 @@ export const signIn = async (jsonData) => {
           : error.status === 400 && error.code === 'invalid_credentials'
             ? '로그인 정보가 일치하지 않습니다.'
             : `통신오류가 발생하였습니다.`;
-
       throw new Error(errorMessage);
     }
 
     return { status: 200, user: data.user };
   } catch (error) {
-    throw new Error(error.message || '로그인 중 오류가 발생하였습니다.');
+    console.error(error);
+    throw error;
   }
 };
 
@@ -60,7 +60,8 @@ export const signOut = async () => {
 
     return { status: 200, user: null };
   } catch (error) {
-    throw new Error(error.message || '로그아웃 중 오류가 발생하였습니다.');
+    console.error(error);
+    throw error;
   }
 };
 
@@ -75,6 +76,7 @@ export const checkSession = async () => {
 
     return { status: 200, session: data.session, message: message };
   } catch (error) {
-    throw new Error(error.message || '알 수 없는 오류가 발생하였습니다.');
+    console.error(error);
+    throw error;
   }
 };

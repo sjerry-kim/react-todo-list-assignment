@@ -40,12 +40,11 @@ const SignIn = () => {
       setUserState(result.user);
       navigate('/board');
     } catch (error) {
-      console.error(error);
       // prettier-ignore
       setAlertState({
         open: true,
         message: error.message,
-        severity: 'error'
+        severity: 'error',
       });
     }
   };

@@ -16,9 +16,8 @@ const Navbar = () => {
       const result = await signOut();
 
       await setUserState(result.user);
-      navigate('/');
+      navigate('/', { replace: true });
     } catch (error) {
-      console.error(error);
       // prettier-ignore
       setAlertState({
         open: true,

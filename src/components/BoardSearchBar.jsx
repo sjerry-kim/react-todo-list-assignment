@@ -1,5 +1,6 @@
+import { useNavigate } from 'react-router-dom';
 import { getBoard } from 'api/board';
-import { useRecoilState, useRecoilValue, useSetRecoilState } from 'recoil';
+import { useRecoilState, useSetRecoilState } from 'recoil';
 import { userAtom } from 'recoil/userAtom';
 import { boardAtom } from 'recoil/boardAtom';
 import { alertAtom } from 'recoil/alertAtom';
@@ -10,7 +11,8 @@ import SearchIcon from '@mui/icons-material/Search';
 import onTextChange from '../utils/onTextChange';
 
 const BoardSearchBar = () => {
-  const userState = useRecoilValue(userAtom);
+  const navigate = useNavigate();
+  const [userState, setUserState] = useRecoilState(userAtom);
   const [boardState, setBoardState] = useRecoilState(boardAtom);
   const setAlertState = useSetRecoilState(alertAtom);
   const { handleChange } = onTextChange(setBoardState);
@@ -26,13 +28,17 @@ const BoardSearchBar = () => {
         todoList: result.data,
       }));
     } catch (error) {
-      console.error(error);
       // prettier-ignore
       setAlertState({
         open: true,
         message: error.message,
         severity: 'error'
-      });
+      })
+
+      if (error.status === 401) {
+        navigate('/404');
+        setUserState(null);
+      }
     }
   };
 
