@@ -54,7 +54,8 @@ const SignIn = () => {
     }
   };
 
-  const handleSubmit = () => {
+  const handleSubmit = (e) => {
+    e.preventDefault();
     const isValid = validate();
 
     if (isValid) {
@@ -73,38 +74,40 @@ const SignIn = () => {
         <LoginTypingText />
       </header>
       <section className={styles.section}>
-        <ul className={styles.ul}>
-          <li>
-            <TextField
-              className={styles.input}
-              error={!!errors.email}
-              label="이메일"
-              variant="outlined"
-              value={jsonData.email}
-              name="email"
-              onChange={handleChange}
-            />
-            <p className={errors.email && styles.helper_text}>{errors.email && errors.email}</p>
-          </li>
-          <li>
-            <TextField
-              className={styles.input}
-              error={!!errors.password}
-              label="패스워드"
-              variant="outlined"
-              type="password"
-              value={jsonData.password}
-              name="password"
-              onChange={handleChange}
-            />
-            <p className={errors.password && styles.helper_text}>{errors.password && errors.password}</p>
-          </li>
-        </ul>
-        <div className={styles.login_btn_box}>
-          <Button className={styles.login_btn} variant="contained" size="large" disabled={isLoading} onClick={handleSubmit}>
-            로그인
-          </Button>
-        </div>
+        <form onSubmit={handleSubmit}>
+          <ul className={styles.ul}>
+            <li>
+              <TextField
+                className={styles.input}
+                error={!!errors.email}
+                label="이메일"
+                variant="outlined"
+                value={jsonData.email}
+                name="email"
+                onChange={handleChange}
+              />
+              <p className={errors.email && styles.helper_text}>{errors.email && errors.email}</p>
+            </li>
+            <li>
+              <TextField
+                className={styles.input}
+                error={!!errors.password}
+                label="패스워드"
+                variant="outlined"
+                type="password"
+                value={jsonData.password}
+                name="password"
+                onChange={handleChange}
+              />
+              <p className={errors.password && styles.helper_text}>{errors.password && errors.password}</p>
+            </li>
+          </ul>
+          <div className={styles.login_btn_box}>
+            <Button className={styles.login_btn} type="submit" variant="contained" size="large" disabled={isLoading}>
+              로그인
+            </Button>
+          </div>
+        </form>
       </section>
       <div className={styles.signup_btn_box}>
         <Button onClick={() => navigate('signup')}>회원가입</Button>
