@@ -79,11 +79,13 @@ const SignIn = () => {
               <TextField
                 className={styles.input}
                 error={!!errors.email}
-                label="이메일"
+                placeholder="이메일"
                 variant="outlined"
-                value={jsonData.email}
                 name="email"
+                type="email"
+                value={jsonData.email}
                 sx={{ backgroundColor: '#fff' }}
+                slotProps={{ inputLabel: { shrink: false } }}
                 onChange={handleChange}
               />
               <p className={errors.email && styles.helper_text}>{errors.email && errors.email}</p>
@@ -92,12 +94,13 @@ const SignIn = () => {
               <TextField
                 className={styles.input}
                 error={!!errors.password}
-                label="패스워드"
+                placeholder="패스워드"
                 variant="outlined"
                 type="password"
-                value={jsonData.password}
                 name="password"
+                value={jsonData.password}
                 sx={{ backgroundColor: '#fff' }}
+                slotProps={{ inputLabel: { shrink: false } }}
                 onChange={handleChange}
               />
               <p className={errors.password && styles.helper_text}>{errors.password && errors.password}</p>

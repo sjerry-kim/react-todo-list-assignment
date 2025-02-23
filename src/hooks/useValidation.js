@@ -21,7 +21,16 @@ const useValidation = (jsonData, validationRules) => {
       }
 
       if (rules.pattern && !rules.pattern.test(value)) {
-        newErrors[key] = '형식이 올바르지 않습니다.';
+        if (key === 'email') {
+          newErrors[key] = '이메일 형식으로 작성해주세요.';
+        } else if (key === 'password') {
+          newErrors[key] = '영어, 숫자, 특수문자 모두 포함되어야 합니다.';
+        } else if (key === 'displayName') {
+          newErrors[key] = '영어, 한글, 숫자만 사용할 수 있습니다.';
+        } else {
+          newErrors[key] = '형식이 올바르지 않습니다.';
+        }
+
         valid = false;
       }
 

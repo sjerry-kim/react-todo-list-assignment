@@ -7,12 +7,13 @@ const onTextChange = (setData) => {
         ...prevData,
         [name]: checked,
       }));
-    } else {
+    } else if (name === 'text') {
       const filteredValue = inputValue
         .replace(/\s{3,}/g, ' ')
         .replace(/\n{3,}/g, '\n')
         .slice(0, 30);
 
+      // modalAtom text
       if (name === 'text') {
         setData((prevData) => ({
           ...prevData,
@@ -21,12 +22,12 @@ const onTextChange = (setData) => {
             [name]: filteredValue,
           },
         }));
-      } else {
-        setData((prevData) => ({
-          ...prevData,
-          [name]: filteredValue,
-        }));
       }
+    } else {
+      setData((prevData) => ({
+        ...prevData,
+        [name]: inputValue,
+      }));
     }
   };
 
