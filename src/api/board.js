@@ -47,6 +47,7 @@ export const postBoard = async (user, text) => {
   }
 };
 
+// 내용 수정
 export const patchBoard = async (user, idx, text) => {
   try {
     const result = await checkSession();
@@ -66,6 +67,28 @@ export const patchBoard = async (user, idx, text) => {
   }
 };
 
+// 완료
+export const putBoard = async (item) => {
+  try {
+    const result = await checkSession();
+
+    if (!result.session) {
+      throw { message: result.message, status: 401 };
+    }
+
+    const newFinishValue = !item.finish;
+    const { status, error } = await supabase.from('todos').update({ finish: newFinishValue }).eq('idx', item.idx);
+
+    if (error) throw new Error(error.message || '통신 오류가 발생하였습니다.');
+
+    return { status: status };
+  } catch (error) {
+    console.error(error);
+    throw error;
+  }
+};
+
+// 삭제
 export const deleteBoard = async (selectedList) => {
   try {
     const result = await checkSession();
