@@ -60,6 +60,14 @@ const Board = () => {
     }
   };
 
+  const handleSubmit = () => {
+    if (boardState.selected.length > 0) {
+      handleDelete();
+    } else {
+      return null;
+    }
+  };
+
   useEffect(() => {
     const fetchData = async () => {
       try {
@@ -99,7 +107,7 @@ const Board = () => {
                 className={styles.delete_btn}
                 variant="contained"
                 sx={{ cursor: 'pointer', backgroundColor: '#47663B' }}
-                onClick={handleDelete}
+                onClick={handleSubmit}
               >
                 {isMobile ? <DeleteOutlineIcon /> : '선택 삭제'}
               </Button>
