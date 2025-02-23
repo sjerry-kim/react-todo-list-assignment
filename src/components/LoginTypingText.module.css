@@ -1,10 +1,11 @@
 .wrapper {
     display: grid;
     place-items: center;
+    width: fit-content;
 }
 
 .typing_demo {
-    width: 5.6ch;
+    width: 95%;
     animation: typing 1.2s steps(10), blink .5s step-end infinite alternate;
     white-space: nowrap;
     overflow: hidden;
