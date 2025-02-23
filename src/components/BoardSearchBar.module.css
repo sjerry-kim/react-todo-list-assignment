@@ -1,0 +1,15 @@
+.search_paper {
+    width: 180px;
+    height: 100%
+
+}
+
+.input {
+    height: 100%;
+}
+
+@media (max-width: 600px) {
+    .input {
+        font-size: 12px !important;
+    }
+}

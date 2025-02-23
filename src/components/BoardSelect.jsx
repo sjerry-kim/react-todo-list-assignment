@@ -1,5 +1,6 @@
 import { useRecoilState } from 'recoil';
 import { boardAtom } from 'recoil/boardAtom';
+import styles from 'components/BoardSelect.module.css';
 import MenuItem from '@mui/material/MenuItem';
 import FormControl from '@mui/material/FormControl';
 import Select from '@mui/material/Select';
@@ -22,14 +23,15 @@ const BoardSelect = () => {
   };
 
   return (
-    <FormControl sx={{ m: 1, minWidth: 120 }} size="small">
+    <FormControl className={styles.select_form_control}>
       <Select
+        className={styles.select}
         name={'boardSelect.idx'}
         value={boardState.select.idx}
         onChange={handleSelectChange}
         displayEmpty
         inputProps={{ 'aria-label': 'Without label' }}
-        variant="outlined"
+        variant="standard"
       >
         {selectList.map((item, index) => (
           <MenuItem value={item.idx} key={index}>

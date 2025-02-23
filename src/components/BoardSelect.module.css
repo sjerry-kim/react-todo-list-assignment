@@ -1,0 +1,38 @@
+.select_form_control {
+    width: 100px;
+    height: 100%;
+}
+
+.select {
+    height: 100%;
+    border-radius: 4px;
+    background-color: #fff;
+    box-shadow: 0px 2px 1px -1px rgba(0, 0, 0, 0.2),
+    0px 1px 1px 0px rgba(0, 0, 0, 0.14),
+    0px 1px 3px 0px rgba(0, 0, 0, 0.12);
+    font-size: 15px !important;
+}
+
+.select > div {
+    margin-left: 8px;
+    padding: 2px 4px !important;
+}
+
+.select:before {
+    border-bottom: none !important;
+}
+
+.select:after {
+    border-bottom: none !important;
+
+}
+
+@media (max-width: 600px) {
+    .select_form_control {
+        width: 92px;
+    }
+
+    .select {
+        font-size: 12px !important;
+    }
+}
