@@ -9,9 +9,12 @@ import { useRecoilState, useSetRecoilState } from 'recoil';
 import { userAtom } from 'recoil/userAtom';
 import { boardAtom } from 'recoil/boardAtom';
 import { modalAtom } from 'recoil/modalAtom';
+import { alertAtom } from 'recoil/alertAtom';
 import styles from 'pages/Board.module.css';
-import { Button } from '@mui/material';
-import { alertAtom } from '../recoil/alertAtom';
+import { useTheme } from '@mui/material/styles';
+import { Button, useMediaQuery } from '@mui/material';
+import DeleteOutlineIcon from '@mui/icons-material/DeleteOutline';
+import DriveFileRenameOutlineIcon from '@mui/icons-material/DriveFileRenameOutline';
 
 const Board = () => {
   const navigate = useNavigate();
@@ -20,6 +23,8 @@ const Board = () => {
   const [boardState, setBoardState] = useRecoilState(boardAtom);
   const setModalState = useSetRecoilState(modalAtom);
   const setAlertState = useSetRecoilState(alertAtom);
+  const theme = useTheme();
+  const isMobile = useMediaQuery(theme.breakpoints.down('md'));
 
   const handleModalOpen = () => {
     setModalState((prev) => ({
@@ -85,22 +90,41 @@ const Board = () => {
   }, [boardState.select]);
 
   return (
-    <Fragment>
-      <main className={styles.main}>
-        <section className={styles.section}>
-          <Button className={styles.add_btn} variant="contained" size="large" onClick={handleModalOpen}>
-            추가
-          </Button>
-          <Button className={styles.add_btn} variant="contained" size="large" onClick={handleDelete}>
-            선택 삭제
-          </Button>
-          <BoardSearchBar />
-          <BoardSelect />
+    <>
+      <section className={styles.section}>
+        <div className={styles.board_container}>
+          <ul className={styles.ul}>
+            <li>
+              <Button
+                className={styles.delete_btn}
+                variant="contained"
+                sx={{ cursor: 'pointer', backgroundColor: '#47663B' }}
+                onClick={handleDelete}
+              >
+                {isMobile ? <DeleteOutlineIcon /> : '선택 삭제'}
+              </Button>
+            </li>
+            <li className={styles.search_btn_box}>
+              <BoardSearchBar />
+              <BoardSelect />
+            </li>
+          </ul>
           <BoardTable rows={boardState.todoList} isLoading={isLoading} />
-        </section>
-      </main>
+        </div>
+        <div className={styles.add_btn_container}>
+          <Button
+            className={styles.add_btn}
+            variant="outlined"
+            size="large"
+            sx={{ cursor: 'pointer', color: '#fff', backgroundColor: '#47663B' }}
+            onClick={handleModalOpen}
+          >
+            {isMobile ? <DriveFileRenameOutlineIcon /> : '추가'}
+          </Button>
+        </div>
+      </section>
       <BoardModal />
-    </Fragment>
+    </>
   );
 };
 

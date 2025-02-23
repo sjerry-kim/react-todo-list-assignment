@@ -23,6 +23,8 @@ import ListItemIcon from '@mui/material/ListItemIcon';
 import ListItemText from '@mui/material/ListItemText';
 import LogoutIcon from '@mui/icons-material/Logout';
 import BorderColorIcon from '@mui/icons-material/BorderColor';
+import { useMediaQuery } from '@mui/material';
+import WavingHandIcon from '@mui/icons-material/WavingHand';
 
 export default function SideNav({ outlet }) {
   const navigate = useNavigate();
@@ -30,12 +32,18 @@ export default function SideNav({ outlet }) {
   const setAlertState = useSetRecoilState(alertAtom);
   const [open, setOpen] = useState(false);
   const theme = useTheme();
+  const isMobile = useMediaQuery(theme.breakpoints.down('md'));
 
   const handleDrawerOpen = () => {
     setOpen(true);
   };
 
   const handleDrawerClose = () => {
+    setOpen(false);
+  };
+
+  const handleSideNav = (route) => {
+    navigate(route);
     setOpen(false);
   };
 
@@ -56,27 +64,38 @@ export default function SideNav({ outlet }) {
   };
 
   return (
-    <Box sx={{ display: 'flex' }}>
-      <AppBar position="fixed" open={open}>
+    <Box sx={isMobile ? {} : { display: 'flex' }}>
+      <AppBar position="fixed" open={open} sx={{ backgroundColor: '#1F4529' }}>
         <Toolbar>
           <Typography variant="h6" noWrap sx={{ flexGrow: 1 }} component="div">
-            Persistent drawer
+            Todo List Assignment
           </Typography>
           <IconButton
             color="inherit"
             aria-label="open drawer"
             edge="end"
             onClick={handleDrawerOpen}
-            sx={[open && { display: 'none' }]}
+            sx={[open && { display: 'none', zIndex: 9999 }]}
           >
             <MenuIcon />
           </IconButton>
         </Toolbar>
       </AppBar>
-      <Main open={open}>
-        <DrawerHeader />
-        <Typography sx={{ marginBottom: 2 }}>{outlet}</Typography>
-      </Main>
+
+      {isMobile ? (
+        <main className={styles.main}>
+          <DrawerHeader />
+          {outlet}
+          <div className="css-fiov70"></div>
+        </main>
+      ) : (
+        <Main className={styles.main} open={open}>
+          <DrawerHeader />
+          {outlet}
+          <div className="css-fiov70"></div>
+        </Main>
+      )}
+
       <Drawer
         sx={{
           width: drawerWidth,
@@ -90,25 +109,25 @@ export default function SideNav({ outlet }) {
         open={open}
       >
         <DrawerHeader>
-          <IconButton onClick={handleDrawerClose}>
+          <IconButton sx={{ color: '#1F4529' }} onClick={handleDrawerClose}>
             {theme.direction === 'rtl' ? <ChevronLeftIcon /> : <ChevronRightIcon />}
           </IconButton>
         </DrawerHeader>
         <Divider />
 
         <List>
-          <ListItem disablePadding>
-            <ListItemIcon>
-              <LogoutIcon />
+          <ListItem disablePadding className={styles.user_box}>
+            <ListItemIcon sx={{ color: '#1F4529' }}>
+              <WavingHandIcon />
             </ListItemIcon>
-            <ListItemText primary={`반가워요, ${userState?.user_metadata?.display_name}님!`} />
+            <ListItemText primary={`반가워요, ${userState?.user_metadata?.display_name}님`} />
           </ListItem>
         </List>
         <Divider />
         <List>
-          <ListItem disablePadding onClick={() => navigate('/board')}>
+          <ListItem disablePadding onClick={() => handleSideNav('/board')}>
             <ListItemButton>
-              <ListItemIcon>
+              <ListItemIcon sx={{ color: '#1F4529' }}>
                 <BorderColorIcon />
               </ListItemIcon>
               <ListItemText primary="Todo List" />
@@ -116,7 +135,7 @@ export default function SideNav({ outlet }) {
           </ListItem>
           <ListItem disablePadding onClick={handleLogout}>
             <ListItemButton>
-              <ListItemIcon>
+              <ListItemIcon sx={{ color: '#1F4529' }}>
                 <LogoutIcon />
               </ListItemIcon>
               <ListItemText primary="로그아웃" />
