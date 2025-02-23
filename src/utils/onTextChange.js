@@ -8,7 +8,10 @@ const onTextChange = (setData) => {
         [name]: checked,
       }));
     } else {
-      const filteredValue = inputValue.replace(/\s{3,}/g, ' ').replace(/\n{3,}/g, '\n');
+      const filteredValue = inputValue
+        .replace(/\s{3,}/g, ' ')
+        .replace(/\n{3,}/g, '\n')
+        .slice(0, 30);
 
       if (name === 'text') {
         setData((prevData) => ({
