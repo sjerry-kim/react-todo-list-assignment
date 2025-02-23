@@ -1,5 +1,13 @@
 # 📝 Todo List 기술과제
 
+|                                                            프로젝트 개발자                                                             |
+| :------------------------------------------------------------------------------------------------------------------------------------: |
+| <img src="https://github.com/sjerry-kim/Portfolio_Academy_ARCO/assets/112137364/23130bde-b5ff-48c3-bfd9-45a1e8bebe07" width="160px" /> |
+|                                                             [ 🙋🏻‍♀️ FE 진혜 ]                                                             |
+|                                                                                                                                        |
+
+개발자 채용 기술과제 Todo List 프로젝트 입니다. 😊
+
 ## 🛠️ 사용 라이브러리 및 스택
 
 - Database : ![Supabase](https://img.shields.io/badge/Supabase-green)
@@ -7,8 +15,8 @@
 - State Management : ![Recoil](https://img.shields.io/badge/Recoil-purple)
 - Style :  ![CSS Modules](https://img.shields.io/badge/CSS%20Modules-orange), ![MUI](https://img.shields.io/badge/MUI-pink)
 
-> ⚡ **이 프로젝트는 Supabase를 사용하여 데이터를 관리합니다.**  
-> 별도의 백엔드 서버 없이 Supabase 통해 데이터베이스와 직접 연결됩니다.
+⚡ **이 프로젝트는 Supabase를 사용하여 데이터를 관리합니다.**  
+별도의 백엔드 서버 없이 Supabase 통해 데이터베이스와 직접 연결됩니다.
 
 ---
 
