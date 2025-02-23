@@ -6,10 +6,9 @@ import useValidation from 'hooks/useValidation';
 import LoginTypingText from 'components/LoginTypingText';
 import { useSetRecoilState } from 'recoil';
 import { userAtom } from 'recoil/userAtom';
-import { Button, TextField } from '@mui/material';
+import { alertAtom } from 'recoil/alertAtom';
 import styles from 'pages/SignIn.module.css';
-import { alertAtom } from '../recoil/alertAtom';
-import Loading from '../components/Loading';
+import { Button, TextField } from '@mui/material';
 
 const SignIn = () => {
   const navigate = useNavigate();
@@ -84,6 +83,7 @@ const SignIn = () => {
                 variant="outlined"
                 value={jsonData.email}
                 name="email"
+                sx={{ backgroundColor: '#fff' }}
                 onChange={handleChange}
               />
               <p className={errors.email && styles.helper_text}>{errors.email && errors.email}</p>
@@ -97,22 +97,31 @@ const SignIn = () => {
                 type="password"
                 value={jsonData.password}
                 name="password"
+                sx={{ backgroundColor: '#fff' }}
                 onChange={handleChange}
               />
               <p className={errors.password && styles.helper_text}>{errors.password && errors.password}</p>
             </li>
           </ul>
           <div className={styles.login_btn_box}>
-            <Button className={styles.login_btn} type="submit" variant="contained" size="large" disabled={isLoading}>
+            <Button
+              className={styles.login_btn}
+              type="submit"
+              variant="contained"
+              size="large"
+              sx={{ backgroundColor: '#1F4529' }}
+              disabled={isLoading}
+            >
               로그인
             </Button>
           </div>
         </form>
       </section>
       <div className={styles.signup_btn_box}>
-        <Button onClick={() => navigate('signup')}>회원가입</Button>
+        <Button variant="text" color="success" sx={{ color: '#1F4529' }} onClick={() => navigate('signup')}>
+          회원가입
+        </Button>
       </div>
-      {/*{isLoading && <Loading />}*/}
     </main>
   );
 };

@@ -3,11 +3,10 @@ import { useNavigate } from 'react-router-dom';
 import { signUp } from 'api/auth';
 import onTextChange from 'utils/onTextChange';
 import useValidation from 'hooks/useValidation';
+import { useSetRecoilState } from 'recoil';
+import { alertAtom } from 'recoil/alertAtom';
 import styles from 'pages/Signup.module.css';
 import { Button, TextField } from '@mui/material';
-import { useSetRecoilState } from 'recoil';
-import { alertAtom } from '../recoil/alertAtom';
-import Loading from '../components/Loading';
 
 const Main = () => {
   const navigate = useNavigate();
@@ -81,6 +80,7 @@ const Main = () => {
               type="email"
               value={jsonData.email}
               name="email"
+              sx={{ backgroundColor: '#fff' }}
               onChange={handleChange}
             />
             <p className={errors.email && styles.helper_text}>{errors.email && errors.email}</p>
@@ -94,6 +94,7 @@ const Main = () => {
               type="password"
               value={jsonData.password}
               name="password"
+              sx={{ backgroundColor: '#fff' }}
               onChange={handleChange}
             />
             <p className={errors.password && styles.helper_text}>{errors.password && errors.password}</p>
@@ -107,21 +108,30 @@ const Main = () => {
               type="displayName"
               value={jsonData.displayName}
               name="displayName"
+              sx={{ backgroundColor: '#fff' }}
               onChange={handleChange}
             />
             <p className={errors.displayName && styles.helper_text}>{errors.displayName && errors.displayName}</p>
           </li>
         </ul>
         <div className={styles.signup_btn_box}>
-          <Button className={styles.signup_btn} variant="contained" size="large" disabled={isLoading} onClick={handleSubmit}>
+          <Button
+            className={styles.signup_btn}
+            variant="contained"
+            size="large"
+            disabled={isLoading}
+            sx={{ backgroundColor: '#1F4529' }}
+            onClick={handleSubmit}
+          >
             회원가입
           </Button>
         </div>
       </section>
       <div className={styles.login_btn_box}>
-        <Button onClick={() => navigate('/')}>로그인 페이지로</Button>
+        <Button color="success" sx={{ color: '#1F4529' }} onClick={() => navigate('/')}>
+          로그인 페이지로
+        </Button>
       </div>
-      {/*{isLoading && <Loading />}*/}
     </main>
   );
 };
