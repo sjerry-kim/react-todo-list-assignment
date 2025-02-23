@@ -1,29 +1,19 @@
 import { useNavigate } from 'react-router-dom';
 import { getBoard, patchBoard, postBoard } from 'api/board';
+import useValidation from 'hooks/useValidation';
 import onTextChange from 'utils/onTextChange';
 import { useRecoilState, useSetRecoilState } from 'recoil';
+import { alertAtom } from 'recoil/alertAtom';
 import { modalAtom } from 'recoil/modalAtom';
 import { userAtom } from 'recoil/userAtom';
 import { boardAtom } from 'recoil/boardAtom';
+import styles from 'components/BoardModal.module.css';
 import Box from '@mui/material/Box';
 import Modal from '@mui/material/Modal';
 import Button from '@mui/material/Button';
 import { TextField } from '@mui/material';
-import useValidation from '../hooks/useValidation';
-import styles from '../pages/SignIn.module.css';
-import { alertAtom } from '../recoil/alertAtom';
-
-const style = {
-  position: 'absolute',
-  top: '50%',
-  left: '50%',
-  transform: 'translate(-50%, -50%)',
-  width: 400,
-  bgcolor: 'background.paper',
-  border: '2px solid #000',
-  boxShadow: 24,
-  p: 4,
-};
+import CancelIcon from '@mui/icons-material/Cancel';
+import DoneIcon from '@mui/icons-material/Done';
 
 const BoardModal = () => {
   const navigate = useNavigate();
@@ -118,34 +108,55 @@ const BoardModal = () => {
   };
 
   return (
-    <div>
-      <Modal
-        keepMounted
-        open={modalState.isOpen}
-        onClose={handleModalClose}
-        aria-labelledby="keep-mounted-modal-title"
-        aria-describedby="keep-mounted-modal-description"
-      >
-        <Box sx={style}>
-          <Button onClick={handleModalClose}>Close</Button>
-          <TextField
-            error={!!errors.text}
-            id="filled-multiline-static"
-            label="내용"
-            multiline
-            rows={2}
-            maxLength={2}
-            variant="filled"
-            value={modalState.data.text}
-            name={'text'}
-            onChange={handleChange}
-          />
-          <p className={errors.text && styles.helper_text}>{errors.text && errors.text}</p>
+    <Modal
+      keepMounted
+      open={modalState.isOpen}
+      onClose={handleModalClose}
+      aria-labelledby="keep-mounted-modal-title"
+      aria-describedby="keep-mounted-modal-description"
+    >
+      <Box className={styles.modal}>
+        <div className={styles.modal_header}>
+          <h3 className={styles.modal_title}>
+            <DoneIcon />
+            Todo List
+          </h3>
+          <CancelIcon sx={{ cursor: 'pointer', color: '#47663B' }} onClick={handleModalClose} />
+        </div>
+        <TextField
+          className={styles.modal_text_field}
+          error={!!errors.text}
+          id="filled-multiline-static"
+          hiddenLabel
+          multiline
+          variant="filled"
+          value={modalState.data.text}
+          name="text"
+          sx={{
+            '& .MuiFilledInput-root': {
+              backgroundColor: 'transparent',
+              overflow: 'hidden !important',
+              '&:before': { borderBottom: 'none !important' },
+              '&:hover:before': { borderBottom: 'none !important' },
+              '&:after': { borderBottom: 'none !important' },
+              '&.Mui-focused': {
+                backgroundColor: 'transparent',
+              },
+            },
+            '& .MuiFilledInput-input': {
+              overflow: 'hidden !important',
+              textOverflow: 'ellipsis',
+            },
+          }}
+          onChange={handleChange}
+        />
 
-          <Button onClick={handleSubmit}>{modalState.data.idx ? '수정 ' : '등록'}</Button>
-        </Box>
-      </Modal>
-    </div>
+        <p className={errors.text && styles.helper_text}>{errors.text && errors.text}</p>
+        <Button variant="contained" sx={{ backgroundColor: '#47663B' }} onClick={handleSubmit}>
+          {modalState.data.idx ? '수정 ' : '등록'}
+        </Button>
+      </Box>
+    </Modal>
   );
 };
 
