@@ -1,3 +1,11 @@
+@font-face {
+    font-family: 'Pretendard';
+    src: url('../public/fonts/variable/PretendardVariable.woff2') format('woff2-variations');
+    font-weight: 100 900;
+    font-style: normal;
+    font-display: swap;
+}
+
 * {
     margin: 0;
     padding: 0;
@@ -9,8 +17,8 @@ ul, ol {
 }
 
 body {
-    font-family: 'Roboto', sans-serif;
-    background-color: #FAF3DD;
+    font-family: 'Pretendard', sans-serif;
+    background-color: #f0f2e6;
     color: #333;
 }
 
